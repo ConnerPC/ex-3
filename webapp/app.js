@@ -30,7 +30,7 @@ app.get('/registrations', function (req, res) {
         }
         console.log("Successful connection!");
         connection.query("SELECT * FROM Registrations", function (err, results) {
-            res.send(results + "\n");
+            res.send(results);
             connection.destroy();
         });
         return;
@@ -72,7 +72,7 @@ app.post('/registrations', function (req, res) {
                 return;
             }
 
-            res.status(200).send(results + "\n");
+            res.status(200).send(results);
             connection.destroy();
         });
         return;
