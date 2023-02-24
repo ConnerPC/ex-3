@@ -13,7 +13,6 @@ function getConnection() {
     "user": "mysql",
     "password": dbPass,
     "database": "mydb",
-    acquireTimeout: 1000000
     });
 }
 
@@ -51,14 +50,17 @@ app.post('/registrations', function (req, res) {
         let reg = req.body;
         if (!(reg.firstName && reg.lastName && reg.grade && reg.email && reg.shirtSize && reg.hrUsername)) {
             res.status(400).send("Validation error, missing required field(s).\n");
+            connection.destroy();
             return;
         }
         if (['S', 'M', 'L'].indexOf(reg.shirtSize) < 0) {
             res.status(400).send("Validation error, bad shirt size (S, M, or L).\n");
+            connection.destroy();
             return;
         } 
         if (reg.grade < 9 || reg.grade > 12) {
             res.status(400).send("Validation error, bad grade (9, 10, 11, or 12).\n");
+            connection.destroy();
             return;
         }
 
