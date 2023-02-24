@@ -7,6 +7,10 @@ curl -X POST -d 'firstName=Caleb&lastName=Jones&grade=10&email=abejones@gmail.co
 ```
 curl -X GET http://164.92.137.70/registrations
 ```
+## Bad GET test (don't compose up database)
+```
+curl -X GET http://164.92.137.70/registrations
+```
 ## Missing parameter POST test (no hrUsername)
 ```
 curl -X POST -d 'firstName=Abe&lastName=Jones&grade=10&email=abejones@gmail.com&shirtSize=S' http://164.92.137.70/registrations

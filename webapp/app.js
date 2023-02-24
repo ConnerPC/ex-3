@@ -25,7 +25,7 @@ app.get('/registrations', function (req, res) {
     connection.connect(function (err) {
         if (err) {
             console.log("Problem connecting to database", err);
-            res.send("Unable to connect to database! " + err + "\n");
+            res.status(500).send("Unable to connect to database! " + err + "\n");
             return;
         }
         console.log("Successful connection!");
