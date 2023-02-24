@@ -12,7 +12,8 @@ function getConnection() {
     "port": 3306,
     "user": "mysql",
     "password": dbPass,
-    "database": "mydb"
+    "database": "mydb",
+    acquireTimeout: 1000000
     });
 }
 
@@ -25,14 +26,15 @@ app.get('/registrations', function (req, res) {
     connection.connect(function (err) {
         if (err) {
             console.log("Problem connecting to database", err);
-            res.send("Unable to connect to database! " + err);
+            res.send("Unable to connect to database! " + err + "\n");
             return;
         }
         console.log("Successful connection!");
         connection.query("SELECT * FROM Registrations", function (err, results) {
-            res.send(results);
+            res.send(results + "\n");
             connection.destroy();
         });
+        return;
     });    
 });
 
@@ -41,25 +43,22 @@ app.post('/registrations', function (req, res) {
     connection.connect(function (err) {
         if (err) {
             console.log("Problem connecting to database", err);
-            res.status(500).send("Unable to connect to database! " + err);
+            res.status(500).send("Unable to connect to database! " + err + "\n");
             return;
         }
         console.log("Successful connection!");
         
         let reg = req.body;
         if (!(reg.firstName && reg.lastName && reg.grade && reg.email && reg.shirtSize && reg.hrUsername)) {
-            res.status(400).send("Validation error, missing required field(s).");
-            connection.destroy();
+            res.status(400).send("Validation error, missing required field(s).\n");
             return;
         }
         if (['S', 'M', 'L'].indexOf(reg.shirtSize) < 0) {
-            res.status(400).send("Validation error, bad shirt size (S, M, or L).");
-            connection.destroy();
+            res.status(400).send("Validation error, bad shirt size (S, M, or L).\n");
             return;
         } 
         if (reg.grade < 9 || reg.grade > 12) {
-            res.status(400).send("Validation error, bad grade (9, 10, 11, or 12).");
-            connection.destroy();
+            res.status(400).send("Validation error, bad grade (9, 10, 11, or 12).\n");
             return;
         }
 
@@ -67,14 +66,14 @@ app.post('/registrations', function (req, res) {
 
         connection.query(insert, function (err, results) {
             if (err) {
-                res.status(500).send("Unable to insert record! " + err);
-                connection.destroy();
+                res.status(500).send("Unable to insert record! " + err + "\n");
                 return;
             }
 
-            res.status(200).send(results);
+            res.status(200).send(results + "\n");
             connection.destroy();
         });
+        return;
     });    
 });
 

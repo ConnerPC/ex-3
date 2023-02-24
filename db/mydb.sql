@@ -4,7 +4,5 @@ create table Registrations (
   last_name varchar(30),
   grade integer,
   email varchar(50),
-  size varchar(1),
+  size varchar(1)
 );
-
-insert into Registrations values (1, 'Fred', 'Jones', 4, 'test', 'M', 'testtest');
